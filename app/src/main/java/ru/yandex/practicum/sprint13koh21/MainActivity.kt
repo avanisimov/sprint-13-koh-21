@@ -181,6 +181,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeCurrentScreenMode(newScreenMode: ScreenMode) {
         if (newScreenMode != currentScreenMode) {
+            binding.toolbar.setTitle(newScreenMode.stringResId)
             when (newScreenMode) {
                 ScreenMode.CATALOG -> {
                     binding.catalogContainer.visibility = View.VISIBLE
