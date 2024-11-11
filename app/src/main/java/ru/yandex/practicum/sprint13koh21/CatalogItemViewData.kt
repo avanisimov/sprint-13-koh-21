@@ -38,9 +38,16 @@ class CatalogItemViewHolder(
         binding.price.text = "${formatPrice(viewData.item.price.toFloat() / 100)}/${viewData.item.unit}"
 
         if (viewData.count != null) {
-            binding.addToCart.visibility = View.GONE
-            binding.countContainer.visibility = View.VISIBLE
-            binding.count.text = viewData.count.toString()
+            if (viewData.count > 0) {
+                binding.addToCart.visibility = View.GONE
+                binding.countContainer.visibility = View.VISIBLE
+                binding.count.text = viewData.count.toString()
+            } else {
+                binding.addToCart.visibility = View.VISIBLE
+                binding.countContainer.visibility = View.GONE
+                binding.count.text = "0"
+            }
+
         }
     }
 
