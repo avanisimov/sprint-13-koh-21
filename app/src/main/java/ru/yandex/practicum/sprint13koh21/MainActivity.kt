@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 catalogItemsAdapter.setItems(catalogItems)
+                updateCartTextVisibility()
             }
             onAddCountClickListener = OnAddCountClickListener { item ->
                 catalogItems = catalogItems.map {
@@ -151,14 +152,21 @@ class MainActivity : AppCompatActivity() {
                 cartItemsAdapter.setItems(cartItems)
             }
             onRemoveCountClickListener = OnCartRemoveCountClickListener { item ->
-                cartItems = cartItems.map {
+                cartItems = cartItems.mapNotNull {
                     if (it.id == item.id) {
-                        it.copy(count = it.count - 1)
+                        if(it.count == 1){
+                            null
+                        }
+                        else{
+                            it.copy(count = it.count - 1)
+                        }
                     } else {
                         it
                     }
                 }
+                updateCartTextVisibility()
                 cartItemsAdapter.setItems(cartItems)
+
             }
         }
     }
@@ -181,6 +189,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun changeCurrentScreenMode(newScreenMode: ScreenMode) {
         if (newScreenMode != currentScreenMode) {
+            binding.toolbar.setTitle(newScreenMode.stringResId)
             when (newScreenMode) {
                 ScreenMode.CATALOG -> {
                     binding.catalogContainer.visibility = View.VISIBLE
@@ -194,5 +203,16 @@ class MainActivity : AppCompatActivity() {
             }
             currentScreenMode = newScreenMode
         }
+    }
+
+    private fun updateCartTextVisibility(){
+
+        if(cartItems.isEmpty()){
+            binding.cartEmptyTitle.visibility = View.VISIBLE
+        }
+        else{
+            binding.cartEmptyTitle.visibility = View.GONE
+        }
+
     }
 }
