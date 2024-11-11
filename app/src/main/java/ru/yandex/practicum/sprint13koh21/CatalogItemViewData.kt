@@ -25,6 +25,11 @@ class CatalogItemViewHolder(
     binding.root
 ) {
 
+    private fun formatPrice(price: Float): String {
+        val tmpPrice = price / 100
+        return "%.2f".format(tmpPrice)
+    }
+
     fun bind(viewData: CatalogItemViewData) {
         binding.root
 
@@ -33,7 +38,7 @@ class CatalogItemViewHolder(
             .load(viewData.item.imageUrl)
             .into(binding.image)
         binding.title.text = viewData.item.name
-        binding.price.text = "${viewData.item.price / 100}/${viewData.item.unit}"
+        binding.price.text = "${formatPrice(viewData.item.price.toFloat())}/${viewData.item.unit}"
 
         if (viewData.count != null) {
             binding.addToCart.visibility = View.GONE
